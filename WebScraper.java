@@ -68,4 +68,24 @@ public class WebScraper {
             e.printStackTrace();
         }
     }
+    
+}
+
+@WebServlet("/VisitTracker")
+public class VisitTracker extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer visitCount = (Integer) session.getAttribute("visitCount");
+
+        if (visitCount == null) visitCount = 0;
+        visitCount++;
+        session.setAttribute("visitCount", visitCount);
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h2>You have visited this page " + visitCount + " times.</h2>");
+        out.println("<a href='index.html'>Go to Scraper</a>");
+        out.println("</body></html>");
+    }
 }
