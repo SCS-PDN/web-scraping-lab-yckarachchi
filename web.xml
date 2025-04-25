@@ -1,0 +1,47 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util., java.io." %>
+<html>
+<head>
+    <title>Scraped Results</title>
+    <script>
+        function downloadCSV() {
+            let csv = "Type,Content\n";
+            <% 
+                List<Map<String, String>> data = (List<Map<String, String>>) request.getAttribute("scrapedData");
+                for (Map<String, String> item : data) {
+                    String type = item.get("Type").replace(",", " ");
+                    String content = item.get("Content").replace(",", " ");
+            %>
+            csv += "<%= type %>,<%= content %>\n";
+            <% } %>
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "scraped_results.csv";
+            link.click();
+        }
+    </script>
+</head>
+<body>
+<h2>Scraped Data</h2>
+
+<table border="1">
+    <tr>
+        <th>Type</th>
+        <th>Content</th>
+    </tr>
+    <%
+        for (Map<String, String> item : (List<Map<String, String>>) request.getAttribute("scrapedData")) {
+    %>
+        <tr>
+            <td><%= item.get("Type") %></td>
+            <td><a href="<%= item.get("Content") %>" target="_blank"><%= item.get("Content") %></a></td>
+        </tr>
+    <% } %>
+</table>
+
+<br>
+<button onclick="downloadCSV()">Download CSV</button>
+</body>
+</html>
