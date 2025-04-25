@@ -1,4 +1,25 @@
-<form action="scrape" method="GET">
-  <input type="url" name="url" placeholder="Enter URL">
-  <button type="submit">Scrape</button>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="ScrapeServlet" method="post">
+    <label>Enter URL: <input type="text" name="url" required></label><br>
+    <label><input type="checkbox" name="options" value="title"> Title</label>
+    <label><input type="checkbox" name="options" value="links"> Links</label>
+    <label><input type="checkbox" name="options" value="images"> Images</label><br>
+    <input type="submit" value="Scrape">
 </form>
+
+<!-- Download CSV -->
+<form action="ScrapeServlet" method="get">
+    <input type="submit" value="Download CSV">
+</form>
+
+
+</body>
+</html>
